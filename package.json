@@ -6,11 +6,24 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "test": "pnpm run test:unit && pnpm run test:e2e"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.5",
     "@tailwindcss/vite": "^4.1.16",
     "astro": "^5.15.1",
-    "tailwindcss": "^4.1.16"
-  }
+    "tailwindcss": "^4.1.16",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.9.2",
+    "@vitest/browser": "^4.0.3",
+    "@vitest/browser-playwright": "^4.0.3",
+    "vitest": "^4.0.3"
+  },
+  "postinstall": "pnpm exec playwright install"
 }
