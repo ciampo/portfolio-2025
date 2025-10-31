@@ -2,7 +2,10 @@
 import BaseLayout from './Layout.astro';
 const { frontmatter } = Astro.props;
 ---
-<BaseLayout>
+<BaseLayout
+  headTitle={`Project: ${frontmatter.title} - Marco Ciampini, UI Engineer`}
+  headDescription={frontmatter.description}
+>
   <h1>{frontmatter.title}</h1>
   <p><em>{frontmatter.description}</em></p>
   <slot />

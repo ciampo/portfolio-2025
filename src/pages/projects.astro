@@ -5,7 +5,10 @@ import Layout from '../layouts/Layout.astro';
 const allProjects = await getCollection("projects");
 ---
 
-<Layout>
+<Layout
+	headTitle='Projects - Marco Ciampini, UI Engineer'
+	headDescription='Welcome to the personal portfolio website of Marco Ciampini, a UI Engineer specializing in web development, accessibility, and performance.'
+>
 	<h2>Projects</h2>
 	<ul>
 		{allProjects.map(project => (
