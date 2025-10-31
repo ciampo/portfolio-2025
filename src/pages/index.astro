@@ -8,12 +8,11 @@ import { Grid } from '../components/grid/Grid';
 	headTitle='Marco Ciampini, UI Engineer'
 	headDescription='Welcome to the personal portfolio website of Marco Ciampini, a UI Engineer specializing in web development, accessibility, and performance.'
 >
-
-
-	<div class="relative z-1">
-		<h1>Marco Ciampini</h1>
-		<p>Welcome to my personal portfolio website.</p>
-
+	<div class="fixed z-1 inset-0 h-dvh w-dvw grid place-items-center pointer-events-none">
+		<div class="bg-gray-50 dark:bg-gray-900 p-4 border border-current w-max max-w-2xl grid place-items-center pointer-events-auto">
+			<h1>Marco Ciampini</h1>
+			<p>Welcome to my personal portfolio website.</p>
+		</div>
 	</div>
 	<Grid client:load />
 </Layout>

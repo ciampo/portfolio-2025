@@ -29,6 +29,8 @@ const { headTitle, headDescription } = Astro.props;
 			</ul>
 			<ThemeSwitcher />
 		</nav>
-		<slot />
+		<main class="relative z-0">
+			<slot />
+		</main>
 	</body>
 </html>
