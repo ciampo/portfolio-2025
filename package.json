@@ -14,14 +14,21 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.5",
+    "@astrojs/react": "^4.4.1",
     "@tailwindcss/vite": "^4.1.16",
+    "@types/react-dom": "^19.2.2",
     "astro": "^5.15.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "tailwindcss": "^4.1.16",
+    "throttle-debounce": "^5.0.2",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
     "@types/node": "^24.9.2",
+    "@types/react": "^19.2.2",
+    "@types/throttle-debounce": "^5.0.2",
     "@vitest/browser": "^4.0.3",
     "@vitest/browser-playwright": "^4.0.3",
     "vitest": "^4.0.3"

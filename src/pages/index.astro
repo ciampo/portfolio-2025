@@ -1,8 +1,19 @@
 ---
+import { object } from 'astro:schema';
 import Layout from '../layouts/Layout.astro';
+import { Grid } from '../components/grid/Grid';
 ---
 
-<Layout>
-	<h2>Marco Ciampini</h2>
-	<p>Welcome to my personal portfolio website.</p>
+<Layout
+	headTitle='Marco Ciampini, UI Engineer'
+	headDescription='Welcome to the personal portfolio website of Marco Ciampini, a UI Engineer specializing in web development, accessibility, and performance.'
+>
+
+
+	<div class="relative z-1">
+		<h1>Marco Ciampini</h1>
+		<p>Welcome to my personal portfolio website.</p>
+
+	</div>
+	<Grid client:load />
 </Layout>
