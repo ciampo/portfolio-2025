@@ -5,7 +5,6 @@ import React, {
   useState,
   useCallback,
   useMemo,
-  // useContext,
 } from "react";
 import { throttle } from "throttle-debounce";
 
@@ -76,13 +75,35 @@ export function InteractiveGrid({
   const isPointerDown = useRef<boolean>(false);
   const didPointerMoveWhileDown = useRef<boolean>(false);
   const lastPointerDownTime = useRef<number>(0);
-  // const { value: themeColor } = useContext(ThemeContext);
-  const themeColor = "#1e1e1e"; // Placeholder until ThemeContext is re-added
+  const [currentColor, setCurrentColor] = useState(
+    window.getComputedStyle(document.documentElement).color ?? "#000000"
+  );
 
   const canvasDiagonal = useMemo(
     () => getDistance2d(0, 0, canvasWidth, canvasHeight),
     [canvasHeight, canvasWidth]
   );
+
+  useEffect(() => {
+    const observer = new MutationObserver((mutationList) => {
+      for (const mutation of mutationList) {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "class"
+        ) {
+          setCurrentColor(
+            window.getComputedStyle(document.documentElement).color ?? "#000000"
+          );
+        }
+      }
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   // Canvas drawing loop
   const draw = useCallback(
@@ -91,7 +112,7 @@ export function InteractiveGrid({
       dimensions: { width: number; height: number }
     ): void => {
       // Draw current status of the grid
-      ctx.fillStyle = themeColor;
+      ctx.fillStyle = currentColor;
       drawGrid(ctx, dimensions, {
         points: gridPoints.current,
         waves: gridWaves.current,
@@ -108,7 +129,7 @@ export function InteractiveGrid({
         .map(growWave)
         .filter((w) => !isWaveExpired(w));
     },
-    [themeColor]
+    [currentColor]
   );
 
   const canvasRef = useCanvas(draw);
@@ -273,9 +294,8 @@ export function InteractiveGrid({
   }, [canvasRef]);
 
   // Call onInit at component mounting time.
-  // This notifies the component host that the grid initialised correctly.
+  // This notifies the component host that the grid initialized correctly.
   useEffect(() => {
-    console.log({ onInit });
     if (onInit) {
       onInit();
     }

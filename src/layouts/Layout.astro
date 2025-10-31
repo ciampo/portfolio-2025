@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import ThemeSwitcher from '../components/theme/ThemeSwitcher.astro';
 
 interface Props {
   headTitle: string;
@@ -9,7 +10,7 @@ interface Props {
 const { headTitle, headDescription } = Astro.props;
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" class="m-0 w-full h-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans leading-normal">
 	<head>
 		<meta charset="UTF-8" />
 		<meta property="og:type" content="website">
@@ -19,23 +20,15 @@ const { headTitle, headDescription } = Astro.props;
 		<title>{headTitle}</title>
 		<meta name="description" content={headDescription} />
 	</head>
-	<body>
-		<nav>
-			<ul>
+	<body class="m-0 w-full h-full">
+		<nav class="sticky top-0 left-0 z-1 flex items-center justify-between">
+			<ul class="flex space-x-4">
 				<li><a href="/">Home</a></li>
 				<li><a href="/about">About</a></li>
 				<li><a href="/projects">Projects</a></li>
 			</ul>
+			<ThemeSwitcher />
 		</nav>
 		<slot />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
