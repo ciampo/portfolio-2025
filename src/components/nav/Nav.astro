@@ -1,0 +1,48 @@
+---
+const currentPath = Astro.url.pathname;
+
+const pages = [{
+  label: 'Home',
+  href: '/'
+}, {
+  label: 'About',
+  href: '/about/'
+},{
+  label: 'Projects',
+  href: '/projects/'
+}];
+
+function isActivePage(href: string, currentPath: string): boolean {
+  // Exact match for home
+  if (href === '/' && currentPath === '/') {
+    return true;
+  }
+  // For other pages, check if current path starts with the href
+  if (href !== '/' && currentPath.startsWith(href)) {
+    return true;
+  }
+  return false;
+}
+---
+<ul class="flex space-x-4" id="nav-wrapper">
+  {
+    pages.map(({label, href})=> {
+      const isActive = isActivePage(href, currentPath);
+      return (
+        <li class="relative">
+          <a
+            href={href}
+            onclick={isActive && href === currentPath ? 'event.preventDefault()' : ''}
+          >
+            {label}
+          </a>
+
+          {isActive && (<span
+            class="absolute bottom-0 left-0 right-0 h-0.5 bg-current pointer-events-none"
+            style={'view-transition-name: navindicator;'}
+          ></span>)}
+        </li>
+      );
+    })
+  }
+</ul>

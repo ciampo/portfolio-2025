@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import ThemeSwitcher from '../components/theme/ThemeSwitcher.astro';
+import Nav from '../components/nav/Nav.astro';
 
 interface Props {
   headTitle: string;
@@ -21,15 +22,11 @@ const { headTitle, headDescription } = Astro.props;
 		<meta name="description" content={headDescription} />
 	</head>
 	<body class="m-0 w-full h-full">
-		<nav class="sticky top-0 left-0 z-1 flex items-center justify-between">
-			<ul class="flex space-x-4">
-				<li><a href="/">Home</a></li>
-				<li><a href="/about">About</a></li>
-				<li><a href="/projects">Projects</a></li>
-			</ul>
+		<nav id="main-nav" class="sticky top-0 left-0 z-1 flex items-center justify-between">
+			<Nav />
 			<ThemeSwitcher />
 		</nav>
-		<main class="relative z-0">
+		<main id="content" class="relative z-0">
 			<slot />
 		</main>
 	</body>
