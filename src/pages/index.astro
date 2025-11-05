@@ -1,7 +1,6 @@
 ---
-import { object } from 'astro:schema';
 import Layout from '../layouts/Layout.astro';
-import { Grid } from '../components/grid/Grid';
+import Grid from '../components/grid/Grid.astro';
 ---
 
 <Layout
@@ -14,5 +13,12 @@ import { Grid } from '../components/grid/Grid';
 			<p>Welcome to my personal portfolio website.</p>
 		</div>
 	</div>
-	<Grid client:load />
+	<Grid />
 </Layout>
+
+<style is:global>
+	body:has(#fallback-grid ~ * canvas[data-init]) #fallback-grid {
+  display: none;
+}
+
+</style>

@@ -5,6 +5,7 @@ import React, {
   useState,
   useCallback,
   useMemo,
+  useLayoutEffect,
 } from "react";
 import { throttle } from "throttle-debounce";
 
@@ -21,7 +22,6 @@ import { getDistance2d, absMax, bitwiseRound } from "./utils";
 import type { GridWave, GridPoint } from "./types";
 
 type HomeGridProps = {
-  onInit?: Function;
   onInteraction?: Function;
   onIdle?: Function;
 };
@@ -60,11 +60,7 @@ function useCanvas(draw: Function): RefObject<HTMLCanvasElement | null> {
   return canvasRef;
 }
 
-export function InteractiveGrid({
-  onInit,
-  onInteraction,
-  onIdle,
-}: HomeGridProps) {
+export function InteractiveGrid({ onInteraction, onIdle }: HomeGridProps) {
   // State (updates trigger re-renders) and refs (no re-renders)
   const [canvasWidth, setCanvasWidth] = useState(0);
   const [canvasHeight, setCanvasHeight] = useState(0);
@@ -75,14 +71,18 @@ export function InteractiveGrid({
   const isPointerDown = useRef<boolean>(false);
   const didPointerMoveWhileDown = useRef<boolean>(false);
   const lastPointerDownTime = useRef<number>(0);
-  const [currentColor, setCurrentColor] = useState(
-    window.getComputedStyle(document.documentElement).color ?? "#000000"
-  );
+  const [currentColor, setCurrentColor] = useState("#000000");
 
   const canvasDiagonal = useMemo(
     () => getDistance2d(0, 0, canvasWidth, canvasHeight),
     [canvasHeight, canvasWidth]
   );
+
+  useLayoutEffect(() => {
+    setCurrentColor(
+      window.getComputedStyle(document.documentElement).color ?? "#000000"
+    );
+  }, []);
 
   useEffect(() => {
     const observer = new MutationObserver((mutationList) => {
@@ -182,7 +182,7 @@ export function InteractiveGrid({
             startProgrammaticWaveTimer();
           });
         },
-        immediate ? 50 : 3500 + Math.random() * 1000
+        immediate ? 0 : 3500 + Math.random() * 1000
       );
     },
     [addGridWave, canvasHeight, canvasWidth]
@@ -263,7 +263,7 @@ export function InteractiveGrid({
 
   // Programmatic waves, shown when user is idle
   useEffect(() => {
-    startProgrammaticWaveTimer(true);
+    startProgrammaticWaveTimer(false);
 
     return (): void => {
       stopProgrammaticWaveTimer();
@@ -293,17 +293,14 @@ export function InteractiveGrid({
     };
   }, [canvasRef]);
 
-  // Call onInit at component mounting time.
-  // This notifies the component host that the grid initialized correctly.
+  // Notifies the component host that the grid initialized correctly.
   useEffect(() => {
-    if (onInit) {
-      onInit();
-    }
-  }, [onInit]);
+    canvasRef.current?.setAttribute("data-init", "");
+  }, []);
 
   return (
     <canvas
-      className="absolute inset-0 w-full h-full z-0 text-primary contain-strict cursor-pointer"
+      className="absolute inset-0 w-full h-full z-1 text-primary contain-strict cursor-pointer"
       ref={canvasRef}
       width={canvasWidth}
       height={canvasHeight}

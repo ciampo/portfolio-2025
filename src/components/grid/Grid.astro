@@ -1,0 +1,44 @@
+---
+import {InteractiveGrid} from './InteractiveGrid.tsx';
+import gridConfig from "./config.ts";
+
+const { dotSize, tileSize, getDotCoordinate } = gridConfig;
+const dotOffset = getDotCoordinate(tileSize, dotSize);
+---
+
+
+<div class="fixed inset-0 w-screen h-dvh overflow-hidden z-0">
+  {/* SVG fallback grid */}
+  <svg id="fallback-grid" aria-hidden="true" class="absolute w-full h-full top-0 left-0 z-0">
+    <defs>
+      <pattern
+        id="dots-grid"
+        x="0"
+        y="0"
+        width={tileSize}
+        height={tileSize}
+        patternUnits="userSpaceOnUse"
+      >
+        <path
+          fill="currentColor"
+          d={`M${dotOffset} ${dotOffset}h${dotSize}v${dotSize}h${-dotSize}z`}
+          fill-rule="evenodd"
+          opacity="0.8"
+        />
+      </pattern>
+    </defs>
+
+    <rect
+      x="0"
+      y="0"
+      width="100%"
+      height="100%"
+      fill="url(#dots-grid)"
+    ></rect>
+  </svg>
+
+  {/* Interactive canvas grid */}
+  <InteractiveGrid client:load />
+</div>
+
+
